@@ -80,17 +80,21 @@ WSGI_APPLICATION = 'schoolproject.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_db',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'django_db',
+#         'USER': 'postgres',
+#         'PASSWORD': 'root',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+import dj_database_url
 
+DATABASES = {
+    'default': dj_database_url.config(default=os.environ.get("postgresql://college_db_93np_user:jDNLm79Fp2zEuVzZSh2qsYndz9ABJL2T@dpg-d887e0l7vvec738hn2b0-a.oregon-postgres.render.com/college_db_93np"))
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
