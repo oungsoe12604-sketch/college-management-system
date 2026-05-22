@@ -1,0 +1,570 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Top Header -->
+    <div class="dashboard-header mb-5">
+
+        <div class="row align-items-center g-4">
+
+            <div class="col-lg-8">
+
+                <div class="d-flex align-items-center">
+
+                    <div class="header-icon me-4">
+                        <i class="bi bi-mortarboard-fill"></i>
+                    </div>
+
+                    <div>
+                        <h1 class="fw-bold mb-2">
+                            Teacher Dashboard
+                        </h1>
+
+                        <p class="text-muted mb-0 fs-5">
+                            Manage courses, monitor enrollments and grow your classroom.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 text-lg-end">
+
+                <a href="{% url 'create_course' %}"
+                   class="btn create-btn btn-lg px-4 py-3">
+
+                    <i class="bi bi-plus-circle-fill me-2"></i>
+                    Create New Course
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Statistics -->
+    <div class="row g-4 mb-5">
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card stat-card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <p class="stat-title mb-2">
+                                Total Courses
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                {{ courses|length }}
+                            </h2>
+                        </div>
+
+                        <div class="stat-icon purple">
+                            <i class="bi bi-journal-richtext"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card stat-card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <p class="stat-title mb-2">
+                                Enrollments
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                {{ enrollments|length }}
+                            </h2>
+                        </div>
+
+                        <div class="stat-icon blue">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card stat-card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <p class="stat-title mb-2">
+                                Active Status
+                            </p>
+
+                            <h2 class="fw-bold text-success mb-0">
+                                Online
+                            </h2>
+                        </div>
+
+                        <div class="stat-icon green">
+                            <i class="bi bi-broadcast-pin"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card stat-card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <p class="stat-title mb-2">
+                                Performance
+                            </p>
+
+                            <h2 class="fw-bold text-warning mb-0">
+                                Excellent
+                            </h2>
+                        </div>
+
+                        <div class="stat-icon orange">
+                            <i class="bi bi-graph-up-arrow"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Courses Section -->
+    <div class="section-header mb-4">
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+            <div>
+                <h3 class="fw-bold mb-1">
+                    <i class="bi bi-book-half text-primary me-2"></i>
+                    Your Courses
+                </h3>
+
+                <p class="text-muted mb-0">
+                    Manage and organize your teaching content.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row g-4">
+
+        {% for c in courses %}
+
+        <div class="col-xl-4 col-md-6">
+
+            <div class="card course-card border-0 shadow-sm h-100">
+
+                <div class="card-body d-flex flex-column">
+
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+
+                        <div class="course-icon">
+                            <i class="bi bi-play-circle-fill"></i>
+                        </div>
+
+                        <span class="badge custom-badge">
+                            <i class="bi bi-check-circle-fill me-1"></i>
+                            Active
+                        </span>
+
+                    </div>
+
+                    <h4 class="fw-bold mb-3">
+                        {{ c.title }}
+                    </h4>
+
+                    <p class="text-muted flex-grow-1">
+                        {{ c.description|truncatechars:140 }}
+                    </p>
+
+                    <div class="course-footer mt-4 pt-3">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div class="small text-muted">
+                                <i class="bi bi-person-workspace me-1"></i>
+                                Instructor Panel
+                            </div>
+
+                            <a href="#"
+                               class="btn btn-outline-primary rounded-pill px-4">
+
+                                <i class="bi bi-eye-fill me-1"></i>
+                                View
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+
+            <div class="card empty-state border-0 shadow-sm text-center">
+
+                <div class="card-body py-5">
+
+                    <div class="empty-icon mb-4">
+                        <i class="bi bi-journal-x"></i>
+                    </div>
+
+                    <h3 class="fw-bold mb-3">
+                        No Courses Available
+                    </h3>
+
+                    <p class="text-muted mb-4">
+                        Start building your online classroom by creating your first course.
+                    </p>
+
+                    <a href="{% url 'create_course' %}"
+                       class="btn create-btn px-4 py-3">
+
+                        <i class="bi bi-plus-circle-fill me-2"></i>
+                        Create Course
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- Students -->
+    <div class="mt-5 pt-3">
+
+        <div class="section-header mb-4">
+
+            <h3 class="fw-bold">
+                <i class="bi bi-people-fill text-primary me-2"></i>
+                Enrolled Students
+            </h3>
+
+            <p class="text-muted mb-0">
+                Students enrolled in your courses.
+            </p>
+
+        </div>
+
+        {% for e in enrollments %}
+
+        <div class="card student-card border-0 shadow-sm mb-3">
+
+            <div class="card-body">
+
+                <div class="row align-items-center">
+
+                    <div class="col-lg-6">
+
+                        <div class="d-flex align-items-center">
+
+                            <div class="student-avatar me-3">
+
+                                <i class="bi bi-person-fill"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h5 class="fw-bold mb-1">
+                                    {{ e.student.username }}
+                                </h5>
+
+                                <small class="text-muted">
+                                    <i class="bi bi-mortarboard me-1"></i>
+                                    Student Account
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-6 text-lg-end mt-3 mt-lg-0">
+
+                        <span class="course-pill">
+
+                            <i class="bi bi-book-fill me-1"></i>
+                            {{ e.course.title }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="card empty-state border-0 shadow-sm text-center">
+
+            <div class="card-body py-5">
+
+                <div class="empty-icon mb-4">
+                    <i class="bi bi-people"></i>
+                </div>
+
+                <h3 class="fw-bold mb-3">
+                    No Student Enrollments
+                </h3>
+
+                <p class="text-muted mb-0">
+                    Student enrollments will appear here automatically.
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<style>
+
+    body{
+        background: #f4f7ff;
+    }
+
+    /* Header */
+
+    .dashboard-header{
+        background: linear-gradient(135deg, #4338ca, #6366f1);
+        border-radius: 28px;
+        padding: 45px;
+        color: white;
+        box-shadow: 0 10px 40px rgba(79,70,229,0.15);
+    }
+
+    .dashboard-header h1{
+        font-size: 2.5rem;
+    }
+
+    .header-icon{
+        width: 90px;
+        height: 90px;
+        border-radius: 24px;
+        background: rgba(255,255,255,0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        backdrop-filter: blur(10px);
+    }
+
+    /* Buttons */
+
+    .create-btn{
+        background: white;
+        color: #4338ca;
+        border: none;
+        border-radius: 14px;
+        font-weight: 600;
+        transition: 0.3s ease;
+    }
+
+    .create-btn:hover{
+        transform: translateY(-3px);
+        background: #eef2ff;
+        color: #312e81;
+    }
+
+    /* Stats */
+
+    .stat-card{
+        border-radius: 24px;
+        transition: 0.3s ease;
+    }
+
+    .stat-card:hover{
+        transform: translateY(-5px);
+    }
+
+    .stat-title{
+        color: #6b7280;
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    .stat-icon{
+        width: 65px;
+        height: 65px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 26px;
+    }
+
+    .purple{
+        background: linear-gradient(135deg,#6366f1,#8b5cf6);
+    }
+
+    .blue{
+        background: linear-gradient(135deg,#2563eb,#06b6d4);
+    }
+
+    .green{
+        background: linear-gradient(135deg,#10b981,#22c55e);
+    }
+
+    .orange{
+        background: linear-gradient(135deg,#f59e0b,#f97316);
+    }
+
+    /* Courses */
+
+    .course-card{
+        border-radius: 24px;
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+
+    .course-card:hover{
+        transform: translateY(-8px);
+        box-shadow: 0 18px 35px rgba(0,0,0,0.08) !important;
+    }
+
+    .course-icon{
+        width: 60px;
+        height: 60px;
+        border-radius: 18px;
+        background: rgba(99,102,241,0.12);
+        color: #4f46e5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+    }
+
+    .custom-badge{
+        background: rgba(16,185,129,0.12);
+        color: #059669;
+        padding: 10px 16px;
+        border-radius: 999px;
+        font-weight: 600;
+    }
+
+    .course-footer{
+        border-top: 1px solid #f1f5f9;
+    }
+
+    /* Student */
+
+    .student-card{
+        border-radius: 22px;
+        transition: 0.3s ease;
+    }
+
+    .student-card:hover{
+        transform: translateY(-3px);
+    }
+
+    .student-avatar{
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+        background: linear-gradient(135deg,#6366f1,#8b5cf6);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+    }
+
+    .course-pill{
+        background: rgba(99,102,241,0.12);
+        color: #4f46e5;
+        padding: 12px 18px;
+        border-radius: 999px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    /* Empty State */
+
+    .empty-state{
+        border-radius: 28px;
+    }
+
+    .empty-icon{
+        width: 110px;
+        height: 110px;
+        margin: auto;
+        border-radius: 30px;
+        background: rgba(99,102,241,0.1);
+        color: #4f46e5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 50px;
+    }
+
+</style>
+
+{% endblock %}

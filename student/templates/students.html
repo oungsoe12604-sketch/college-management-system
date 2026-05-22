@@ -1,0 +1,239 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student Management</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+body{
+    background: #f4f6f9;
+}
+
+/* HEADER */
+.page-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* SEARCH */
+.search-box{
+    max-width: 350px;
+}
+
+/* CARD */
+.card{
+    border-radius: 12px;
+    border: none;
+}
+
+/* TABLE HEADER (GRADIENT COLOR) */
+.table thead {
+    background: linear-gradient(to right, #4f46e5, #2563eb);
+    color: white;
+}
+
+/* TABLE */
+.table-hover tbody tr:hover{
+    background-color: #eef2ff;
+    transition: 0.2s;
+}
+
+/* STRIPED ROWS */
+.table tbody tr:nth-child(even){
+    background-color: #f9fafb;
+}
+
+/* PROFILE IMAGE */
+.profile-img{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* FALLBACK AVATAR */
+.avatar-fallback{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #4f46e5;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+/* ROW LEFT ACCENT */
+.table tbody tr{
+    border-left: 4px solid transparent;
+}
+.table tbody tr:hover{
+    border-left: 4px solid #4f46e5;
+}
+
+/* ACTION BUTTONS */
+.action-btns a{
+    margin-right: 5px;
+}
+
+/* BUTTON COLORS */
+.btn-outline-success {
+    border-color: #22c55e;
+    color: #22c55e;
+}
+.btn-outline-success:hover {
+    background: #22c55e;
+    color: white;
+}
+
+.btn-outline-danger {
+    border-color: #ef4444;
+    color: #ef4444;
+}
+.btn-outline-danger:hover {
+    background: #ef4444;
+    color: white;
+}
+
+/* PAGINATION */
+.pagination a{
+    text-decoration: none;
+    margin: 0 5px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: #e5e7eb;
+    color: #111;
+    transition: 0.2s;
+}
+.pagination a:hover{
+    background: #4f46e5;
+    color: white;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .page-header{
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+}
+</style>
+</head>
+
+<body class="container py-4">
+
+<!-- HEADER -->
+<div class="page-header">
+    <h3 class="fw-bold mb-0">
+        <i class="bi bi-people-fill text-primary"></i> Student List
+    </h3>
+
+    <a href="{% url 'add_student' %}" class="btn btn-primary btn-sm">
+        <i class="bi bi-person-plus-fill"></i> Add Student
+    </a>
+</div>
+
+<!-- SEARCH -->
+<form method="GET" class="mb-3">
+    <div class="input-group search-box">
+        <span class="input-group-text">
+            <i class="bi bi-search"></i>
+        </span>
+        <input type="text" name="q" class="form-control" placeholder="Search student...">
+    </div>
+</form>
+
+<!-- TABLE -->
+<div class="card shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
+
+            <thead>
+                <tr>
+                    <th>Profile</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Email</th>
+                    <th>Course</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for student in students %}
+                <tr>
+
+                    <!-- PROFILE -->
+                    <td>
+                        {% if student.photo %}
+                            <img src="{{ student.photo.url }}" class="profile-img">
+                        {% else %}
+                            <div class="avatar-fallback">
+                                {{ student.name|slice:":1"|upper }}
+                            </div>
+                        {% endif %}
+                    </td>
+
+                    <td class="fw-semibold">{{ student.name }}</td>
+                    <td>{{ student.age }}</td>
+                    <td class="text-muted">{{ student.email }}</td>
+                    <td>{{ student.course }}</td>
+
+                    <!-- ACTIONS -->
+                    <td class="text-end action-btns">
+                        <a href="{% url 'edit_student' student.id %}" class="btn btn-sm btn-outline-success">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+
+                        <a href="{% url 'delete_student' student.id %}" class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center py-4 text-muted">
+                        No students found
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="d-flex justify-content-between align-items-center p-3 flex-wrap gap-2">
+
+        <div class="pagination">
+            {% if students.has_previous %}
+                <a href="?page=1">First</a>
+                <a href="?page={{ students.previous_page_number }}">Prev</a>
+            {% endif %}
+        </div>
+
+        <div class="text-muted small">
+            Page {{ students.number }} of {{ students.paginator.num_pages }}
+        </div>
+
+        <div class="pagination">
+            {% if students.has_next %}
+                <a href="?page={{ students.next_page_number }}">Next</a>
+                <a href="?page={{ students.paginator.num_pages }}">Last</a>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

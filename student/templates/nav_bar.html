@@ -1,0 +1,153 @@
+<nav class="navbar navbar-expand-lg custom-navbar shadow-sm">
+    <div class="container">
+
+        <a class="navbar-brand fw-bold brand-text" href="{% url 'welcome' %}">
+            StudentMS
+        </a>
+
+        <button class="navbar-toggler border-0 shadow-none" type="button"
+                data-bs-toggle="collapse" data-bs-target="#nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav">
+
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                {% if user.is_authenticated %}
+
+                    {% if user.profile.role == 'teacher' %}
+
+                        <li class="nav-item">
+                            <a class="nav-link custom-link"
+                               href="{% url 'teacher_dashboard' %}">
+                                Dashboard
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link custom-link"
+                               href="{% url 'create_course' %}">
+                                Create Course
+                            </a>
+                        </li>
+
+                    {% else %}
+
+                        <li class="nav-item">
+                            <a class="nav-link custom-link"
+                               href="{% url 'student_dashboard' %}">
+                                Dashboard
+                            </a>
+                        </li>
+
+                    {% endif %}
+
+                    <li class="nav-item ms-lg-3">
+                        <a class="btn logout-btn px-4"
+                           href="{% url 'logout' %}">
+                            Logout
+                        </a>
+                    </li>
+
+                {% else %}
+
+                    <li class="nav-item">
+                        <a class="nav-link custom-link"
+                           href="{% url 'login' %}">
+                            Login
+                        </a>
+                    </li>
+
+                    <li class="nav-item ms-lg-3">
+                        <a class="btn register-btn px-4"
+                           href="{% url 'register' %}">
+                            Register
+                        </a>
+                    </li>
+
+                {% endif %}
+
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<style>
+
+    /* Indigo SaaS Style Navbar */
+
+    .custom-navbar{
+        background: linear-gradient(90deg, #312e81, #4338ca, #4f46e5);
+        padding: 14px 0;
+    }
+
+    .brand-text{
+        color: #ffffff !important;
+        font-size: 1.5rem;
+        letter-spacing: 0.5px;
+    }
+
+    .custom-link{
+        color: rgba(255,255,255,0.85) !important;
+        font-weight: 500;
+        margin-left: 10px;
+        transition: 0.3s;
+        position: relative;
+    }
+
+    .custom-link:hover{
+        color: #ffffff !important;
+        transform: translateY(-1px);
+    }
+
+    .custom-link::after{
+        content: '';
+        position: absolute;
+        width: 0%;
+        height: 2px;
+        left: 0;
+        bottom: 0;
+        background: #ffffff;
+        transition: 0.3s;
+    }
+
+    .custom-link:hover::after{
+        width: 100%;
+    }
+
+    .register-btn{
+        background: #ffffff;
+        color: #4338ca;
+        border-radius: 10px;
+        font-weight: 600;
+        border: none;
+        transition: 0.3s;
+    }
+
+    .register-btn:hover{
+        background: #e0e7ff;
+        color: #312e81;
+    }
+
+    .logout-btn{
+        background: rgba(255,255,255,0.15);
+        color: white;
+        border-radius: 10px;
+        border: 1px solid rgba(255,255,255,0.2);
+        transition: 0.3s;
+    }
+
+    .logout-btn:hover{
+        background: rgba(255,255,255,0.25);
+        color: white;
+    }
+
+    .navbar-toggler{
+        background: rgba(255,255,255,0.12);
+        border-radius: 8px;
+        padding: 6px 10px;
+    }
+
+</style>
